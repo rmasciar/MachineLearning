@@ -1,29 +1,59 @@
-function theta=NeuralNetworks(y,x,hidden)
+function [theta,h,J]=NeuralNetworks(y,x,hidden,lambda=1,MaxIteration=10^3)
 
 m=size(y,1);
-k=size(y,2);
+K=size(y,2);
 n=size(x,2);
-nodes=[n;hidden(:);k];
+nodes=[n;hidden(:);K];
 L=length(nodes);
 
-%initialize theta
 
+%initialize theta
 theta=[];
-for l=2:L
-	TempTheta=rand(nodes(l),nodes(l-1)+1);
-	theta=[theta(:); TempTheta(:)];
+for j=2:L
+	thetaTemp=rand(nodes(j),nodes(j-1)+1);
+	theta=[theta;thetaTemp(:)];
 end
+
+%
+
+h=zeros(m,K);
 
 for i=1:m
-	
-	
-	for l=1:L
-		TempTheta=reshape(theta(:),s(
-	end
 
-	a1=[1,x(i,:)];
-	TempTheta=rand(nodes(1),n+1);
-	z2=TempTheta*a1;
-	a2=1./(1+exp(-z2));
+	a0=[x(i,:)(:)];
 	
+	for j=2:L
+		
+		st=sum(nodes(2:(j-1)).*(nodes(1:(j-2))+1));
+		en=st+nodes(j).*(nodes(j-1)+1);
+		
+		theta0=reshape(theta(st+1:en)(:),nodes(j),nodes(j-1)+1);
+		a0=[1;a0];
+		
+		z1=theta0*a0;
+		a1=1./(1+exp(-z1));
+		a0=a1;
+	
+	end
+	
+	h(i,:)=a0';
+
 end
+
+J=0;
+for i=1:m
+	for k=1:K
+		J=J+(-1/m)*(y(i,k)*log(h(i,k))+(1-y(i,k))*log(1-h(i,k)));
+	end
+end
+
+for j=2:L
+	st=sum(nodes(2:(j-1)).*(nodes(1:(j-2))+1));
+	en=st+nodes(j).*(nodes(j-1)+1);
+		
+	theta0=reshape(theta(st+1:en)(:),nodes(j),nodes(j-1)+1);
+	J=J+(lambda/(2*m))*sum(theta0(:,2:end)(:).^2);
+end
+
+
+
