@@ -1,0 +1,8 @@
+function theta=initTheta(nodes,epsilon)
+
+L=length(nodes);
+theta=[];
+for j=2:L
+	thetaTemp=rand(nodes(j),nodes(j-1)+1);
+	theta=[theta;thetaTemp(:)];
+end

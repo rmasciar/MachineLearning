@@ -4,8 +4,16 @@ m=size(y,1);
 K=size(y,2);
 n=size(x,2);
 nodes=[n;hidden(:);K];
+L=length(nodes);
 
-theta=initTheta(nodes,10
+
+%initialize theta
+theta=[];
+for j=2:L
+	thetaTemp=rand(nodes(j),nodes(j-1)+1);
+	theta=[theta;thetaTemp(:)];
+end
+
 %
 
 h=zeros(m,K);
@@ -16,11 +24,14 @@ for i=1:m
 	
 	for j=2:L
 		
-		theta0=getTheta(theta,nodes,j);
+		st=sum(nodes(2:(j-1)).*(nodes(1:(j-2))+1));
+		en=st+nodes(j).*(nodes(j-1)+1);
+		
+		theta0=reshape(theta(st+1:en)(:),nodes(j),nodes(j-1)+1);
 		a0=[1;a0];
 		
 		z1=theta0*a0;
-		a1=sigmoid(z1);
+		a1=1./(1+exp(-z1));
 		a0=a1;
 	
 	end
