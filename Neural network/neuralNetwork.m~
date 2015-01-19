@@ -9,5 +9,5 @@ function theta=neuralNetwork(y,x,hidden,lambda=1)
 	theta0=initTheta(network);
 	theta=theta0;
 	
-	[J,dJ]=neuralCost(y,x,theta0,lambda,network)
+	[J,dJ]=neuralCost(y,x,theta0,lambda,network);
 

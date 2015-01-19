@@ -33,7 +33,7 @@ function [J,dJ]=neuralCost(y,x,theta,lambda,network)
 	end
 	
 	for l=1:(L-1)	
-		theta0=getTheta(theta,network,l);
+		theta0=getTheta(theta,network,l)
 		J=J+lambda/(2*m)*trace((theta0'*theta0)(2:end,2:end));
 	end
 	dJ=0;
