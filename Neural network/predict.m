@@ -4,7 +4,7 @@ function h=predict(x,theta,network)
 	L=length(network);
 	
 	for i=1:m
-		a=[1;x(i,:)];
+		a=[1;x(i,:)(:)];
 		for l=2:L
 			
 			theta_prev=getTheta(theta,network,l-1);
