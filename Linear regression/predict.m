@@ -1,9 +1,11 @@
-function h=predict(X,theta)
+function h=predict(type,X,theta)
 
-	m=size(X,1);
-
-	if size(theta,1)>size(X,2)
-		X=[ones(m,1) X];
+	if type=='linear'
+		m=size(X,1);
+	
+		if size(theta,1)>size(X,2)
+			X=[ones(m,1) X];
+		end
+	
+		h=X*theta;
 	end
-
-	h=X*theta;
