@@ -3,7 +3,9 @@ function [J,dJ]=logCost(y,x,theta,lambda)
 	m=size(y,1);
 	n=size(x,2);
 	
-	X=[ones(m,1) x];
+	if n<length(theta)
+		X=[ones(m,1) x];
+	end
 	
 	h=predict('logistic',X,theta);
 	

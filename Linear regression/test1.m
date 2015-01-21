@@ -6,24 +6,29 @@ clear; close all; clc;
 fprintf('Loading data...\n');
 data=load('ex1data2.txt');
 X=data(:,1:2); y=data(:,3);
-X=normalize(X);
 
-[m,n]=size(X);
+fprintf('Normalizing X...\n');
+[X, mu, sd]=normalize(X);
 
+
+fprintf('Initialization...\n');
 % initialize theta
-initTheta=zeros(n+1,1);
+initTheta=initializeTheta(X);
 
 % initial cost
-J0=linearCost(y,X,initTheta,0.01)
+J0=linearCost(y,X,initTheta,0)
 
+fprintf('Gradient descent...\n');
 % gradient descent
-alpha=0.01;
+alpha=0.1;
 lambda=0.01;
 
-[theta,J_history]=gradientDescent(y,X,@linearCost,lambda=0.1,alpha=0.01,MaxIter=10^5);
+[theta,J_history]=gradientDescent(y,X,@linearCost,lambda,alpha,MaxIter=10^5);
 plot(J_history);
 
-% predict
+% Performance calculation
+fprintf('Calculating performance...\n');
 h=predict('linear',X,theta);
+rmse=sqrt((1/size(y,1)).*(h-y)'*(h-y))
 
-theta
+

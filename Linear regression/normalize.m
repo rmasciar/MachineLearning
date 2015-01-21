@@ -1,15 +1,19 @@
-function x=normalize(x0)
+function [x, mu, sd]=normalize(x0)
 	
-	m=size(x0,1);
-	n=size(x0,2);
+	[m,n]=size(x0);
 
-	if x0(:,1)==ones(m,1);
+	mu=zeros(n,1);
+	sd=ones(n,1);
+
+	if sum((x0(:,1)-ones(m,1)).^2)==0;
 		j1=2;
 	else j1=1;
 	end
 
-	x=x0;
+	x=x0;	
 
 	for j=j1:n
-		x(:,j)=(x0(:,j)-mean(x0(:,j)))/std(x0(:,j));
+		mu(j,1)=mean(x0(:,j));
+		sd(j,1)=std(x0(:,j));
+		x(:,j)=(x0(:,j)-mu(j,1))/sd(j,1);
 	end
