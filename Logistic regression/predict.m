@@ -8,7 +8,7 @@ function h=predict(type,X,theta,mu=[],sd=[])
 
 	if (length(mu)>0) && (length(sd)>0)
 		for j=2:size(X,2)
-			X(:,j)=(X(:,j)-mu(j-1))/sd(j-1)
+			X(:,j)=(X(:,j)-mu(j-1))/sd(j-1);
 		end
 	end
 

@@ -5,6 +5,7 @@ function [J,dJ]=logCost(y,x,theta,lambda)
 	
 	if n<length(theta)
 		X=[ones(m,1) x];
+	else X=x; n=n-1;
 	end
 	
 	h=predict('logistic',X,theta);

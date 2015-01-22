@@ -4,8 +4,11 @@ clear; close all; clc;
 
 % load data
 fprintf('Loading data...\n');
-data=load('ex2data1.txt');
+data=load('ex2data2.txt');
 X=data(:,1:2); y=data(:,3);
+
+X=mapFeature(X(:,1),X(:,2));
+
 [X, mu, sd]=normalize(X);
 
 [m,n]=size(X);
@@ -27,17 +30,21 @@ plot(J_history);
 % predict
 h=predict('logistic',X,theta);
 
-theta
-J_final=J_history(end,1)
-
 % advanced optimization
 options=optimset('GradObj','on','MaxIter',500);
 
-[thetaAdv, JAdv]=fminunc(@(t)(logCost(y,X,t,0)),initTheta,options)
+[thetaAdv, JAdv]=fminunc(@(t)(logCost(y,X,t,0)),initTheta,options);
 
-% predict
-x1=[1 45 85];
-mu
-sd
+% predict new sample
+x1=[45 85];
+x1=mapFeature(x1(:,1),x1(:,2));
+
 h1=predict('logistic',x1,theta,mu,sd)
 h2=predict('logistic',x1,thetaAdv,mu,sd)
+
+% accuracy
+
+h=predict('logistic',X,theta)>=0.5;
+hAdv=predict('logistic',X,thetaAdv)>=0.5;
+accuracy=mean(h==y)*100
+accuracyAdv=mean(hAdv==y)*100

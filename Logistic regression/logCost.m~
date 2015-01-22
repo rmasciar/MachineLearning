@@ -3,9 +3,12 @@ function [J,dJ]=logCost(y,x,theta,lambda)
 	m=size(y,1);
 	n=size(x,2);
 	
-	X=[ones(m,1) x];
+	if n<length(theta)
+		X=[ones(m,1) x];
+	else X=x;
+	end
 	
-	h=predict(0,X,theta);
+	h=predict('logistic',X,theta);
 	
 	LAMBDA=lambda.*eye(n+1,n+1);
 	LAMBDA(1,1)=0;
