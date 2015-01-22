@@ -1,6 +1,7 @@
 function [J,dJ]=logCost(y,x,theta,lambda)
 
 	m=size(y,1);
+
 	n=size(x,2);
 	
 	if n<length(theta)

@@ -7,11 +7,11 @@ fprintf('Loading data...\n');
 data=load('ex2data2.txt');
 X=data(:,1:2); y=data(:,3);
 
-X=mapFeature(X(:,1),X(:,2));
+% normalize X
+degree=3
+X=mapFeature(X(:,1),X(:,2),degree);
 
 [X, mu, sd]=normalize(X);
-
-[m,n]=size(X);
 
 % initialize theta
 initTheta=initializeTheta(X);
@@ -34,10 +34,11 @@ h=predict('logistic',X,theta);
 options=optimset('GradObj','on','MaxIter',500);
 
 [thetaAdv, JAdv]=fminunc(@(t)(logCost(y,X,t,0)),initTheta,options);
+size(thetaAdv)
 
 % predict new sample
 x1=[45 85];
-x1=mapFeature(x1(:,1),x1(:,2));
+x1=mapFeature(x1(:,1),x1(:,2),degree);
 
 h1=predict('logistic',x1,theta,mu,sd)
 h2=predict('logistic',x1,thetaAdv,mu,sd)

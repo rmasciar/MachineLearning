@@ -1,5 +1,5 @@
-function out=mapFeature(x1,x2)
-	degree=6;
+function out=mapFeature(x1,x2,degree)
+
 	out=ones(size(x1(:,1)));
 	for i=1:degree
 		for j=0:i
