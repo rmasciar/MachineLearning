@@ -1,0 +1,23 @@
+function [DELTA]=backPropagation(a,theta,network,i)
+
+	L=length(network);
+	DELTA=0*theta;
+	for i=1:m
+		deltaL=getA(a,network,L)-y(i,:);
+
+		for l=L-1:-1:1
+			[g dg]=sigmoid(getA(a,network,l);
+
+			if l==(L-1)
+				deltaL=deltaL;
+			else deltaL=deltaL(2:end);
+			end
+
+			deltal=neuralGetMatrix(theta,network,l)'*deltaL.*dg; 
+
+			deltaL=deltal;
+			DELTAl=neuralGetMatrix(DELTA,network,l);
+			DELTAl=DELTAl+deltaL*getA(a,network,l)';
+			DELTA=updateDELTA(DELTA,network,l,DELTAl);
+		end
+	end

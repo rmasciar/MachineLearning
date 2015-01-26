@@ -8,7 +8,6 @@ function h=predict(x,theta,network)
 		for l=2:L
 			
 			theta_prev=getTheta(theta,network,l-1);
-			
 			a_prev=getA(a,network,l-1);
 					
 			z=theta_prev*a_prev;

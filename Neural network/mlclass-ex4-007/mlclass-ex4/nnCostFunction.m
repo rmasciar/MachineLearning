@@ -61,11 +61,47 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+	h=[];
+	
+	DELTA2=zeros(size(Theta2,1),size(Theta2,2));
+	DELTA1=zeros(size(Theta1,1),size(Theta1,2));
+	
+	for i=1:m
 
+		a1=[1;X(i,:)(:)];
+		a2=[1;sigmoid(Theta1*a1)(:)];
+		a3=sigmoid(Theta2*a2);
+		h=[h;a3'];	
 
+		y_vec=zeros(num_labels,1);		
+		y_vec(y(i,1),1)=1;
+		delta3=a3-y_vec;
 
+		delta2=(Theta2')*delta3.*sigmoidGradient([1;Theta1*a1]);
+			
+		DELTA2=DELTA2+(1/m).*delta3*a2';	
+		DELTA1=DELTA1+(1/m).*delta2(2:end)*a1';
 
+	end
+	
+	LAMBDA1=lambda.*ones(size(DELTA1));
+	LAMBDA1(:,1)=0;
+	LAMBDA2=lambda.*ones(size(DELTA2));
+	LAMBDA2(:,1)=0;
 
+	Theta1_grad=DELTA1+(1/m).*LAMBDA1.*Theta1;
+	Theta2_grad=DELTA2+(1/m).*LAMBDA2.*Theta2;
+	
+	for k=1:num_labels
+		J=J-(1/m)*((y==k)'*log(h(:,k))+(1-(y==k))'*log(1-h(:,k)));
+	end
+	
+	LAMBDA1=lambda*eye(size(Theta1,1));
+	LAMBDA2=lambda*eye(size(Theta2,1));
+
+	J=J+(1/(2*m))*(trace((Theta1'*LAMBDA1*Theta1)(2:end,2:end))+trace((Theta2'*LAMBDA2*Theta2)(2:end,2:end)));
+	
+	
 
 
 

@@ -5,7 +5,10 @@ function DELTA=updateDELTA(DELTA,network,l,newDELTA)
 
 	if l==1
 		st=1;
-	else st=(network(l-1)+1)*network(l)+1;
+	else st=1;
+		for l0=2:l
+			st=st+(network(l0-1)+1)*network(l0);
+		end
 	end
 	en=st+L_out*L_in-1;
 	DELTA(st:en)=newDELTA(:);

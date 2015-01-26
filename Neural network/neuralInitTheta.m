@@ -1,0 +1,10 @@
+function theta=neuralInitTheta(network)
+	L=length(network);
+	theta=[];
+	for l=1:(L-1)
+		L_in=network(l)+1;
+		L_out=network(l+1);
+		epsilon=sqrt(6)/(sqrt(L_in+L_out));
+		theta0=rand(L_out,L_in)*2*epsilon-epsilon;
+		theta=[theta; theta0(:)];
+	end
