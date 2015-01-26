@@ -1,5 +1,5 @@
 function theta=neuralInitTheta(network)
-	L=length(network);
+	L=numel(network);
 	theta=[];
 	for l=1:(L-1)
 		L_in=network(l)+1;

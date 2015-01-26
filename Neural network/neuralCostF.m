@@ -23,7 +23,7 @@ function [J, dJ]=neuralCostF(y,x,theta,network,lambda)
 	for l=1:(L-1)
 		DELTAl=neuralGetMatrix(DELTA,network,l);
 		LAMBDA=lambda.*ones(size(DELTAl));
-		LAMBDA(:,1)=ones(size(DELTAl,1),1);
+		LAMBDA(:,1)=zeros(size(DELTAl,1),1);
 		DELTAl=(1/m).*(DELTAl+LAMBDA.*neuralGetMatrix(theta,network,l));
 		DELTA=updateDELTA(DELTA,network,l,DELTAl);
 	end
