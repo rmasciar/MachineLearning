@@ -16,8 +16,5 @@ hold off
 % linear svm
 c=1
 kernel=trainSVM(y,X,c,'linear',tol=10^-3,max=5);
-X(1,:)
 kernel(X(1,:))
-kernel=trainSVM(y,X,c,'gaussian',tol=10^-3,max=5);
-kernel(X(1,:),X(2,:))
 
