@@ -3,21 +3,17 @@
 clear;close all;clc;
 
 % load data
-fprintf('Load and visualize data');
-load('ex6data1.mat');
+fprintf('Load and visualize data ...\n');
+load('ex6data2.mat');
 
-% plot data
-pos=find(y==1);neg=find(y==0);
-plot(X(pos,1),X(pos,2),'k+','LineWidth',1);
-hold on
-plot(X(neg,1),X(neg,2),'ko','MarkerFaceColor','y');
-hold off
+% Kernel test
 
-% linear svm
-c=1
-kernel=trainSVM(y,X,c,'linear',tol=10^-3,max=5);
-X(1,:)
-kernel(X(1,:))
-kernel=trainSVM(y,X,c,'gaussian',tol=10^-3,max=5);
-kernel(X(1,:),X(2,:))
+sigma=0.1;
+[linearKernel polynomialKernel gaussianKernel]=defineKernels(0, 1, sigma);
 
+% train SVM
+	
+C=1;
+model=trainSVM(y,X,C,gaussianKernel);
+pred=SVMpredict(X,model);
+mean(pred=~y)
