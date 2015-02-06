@@ -82,9 +82,7 @@ while passes < max_passes,
         
         % Calculate Ei = f(x(i)) - y(i) using (2). 
         % E(i) = b + sum (X(i, :) * (repmat(alphas.*Y,1,n).*X)') - Y(i);
-	size(X)
-	size(K)
-	size(K(:,i))
+	
         E(i) = b + sum (alphas.*Y.*K(:,i)) - Y(i);
         
         if ((Y(i)*E(i) < -tol && alphas(i) < C) || (Y(i)*E(i) > tol && alphas(i) > 0)),

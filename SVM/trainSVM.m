@@ -20,8 +20,8 @@ while passes<maxpasses
 
 	for i=1:m
 
-		E(i)=b+sum(alpha.*y.*kernel(x,x(i,:)(:)'))-y(i);
-		%E(i) = b + sum (alphas.*Y.*K(:,i)) - Y(i);
+		E(i)=b+sum(alpha.*y.*kernel(x(i,:),x))-y(i);
+
 		if (y(i)*E(i)+tol<0 && alpha(i)<C) ||(y(i)*E(i)-tol>0 && alpha(i)>0)
 
 			j=i;
@@ -29,7 +29,7 @@ while passes<maxpasses
 				j=ceil(m*rand());
 			end
 
-			E(j)=b+sum(alpha.*y.*kernel(x,x(j,:)(:)'))-y(j);
+			E(j)=b+sum(alpha.*y.*kernel(x(j,:),x))-y(j);
 			a_iold=alpha(i);
 			a_jold=alpha(j);
 			
@@ -45,9 +45,9 @@ while passes<maxpasses
 				continue;
 			end
 			
-			k1=kernel(x(i,:)(:)',x(j,:)(:)');
-			k2=kernel(x(i,:)(:)',x(i,:)(:)');
-			k3=kernel(x(j,:)(:)',x(j,:)(:)');
+			k1=kernel(x(i,:),x(j,:));
+			k2=kernel(x(i,:),x(i,:));
+			k3=kernel(x(j,:),x(j,:));
 			eta=2*k1-k2-k3;
 
 			if eta>=0
@@ -66,13 +66,20 @@ while passes<maxpasses
 			alpha(i)=alpha(i)+y(i)*y(j)*(a_jold-alpha(j));
 
 			b1=b-E(i)...
-				-y(i)*(alpha(i)-a_iold)*kernel(x(i,:)(:)',x(i,:)(:)')...
-				-y(j)*(alpha(j)-a_jold)*kernel(x(i,:)(:)',x(j,:)(:)');
-			b2=b-E(j)...
-				-y(i)*(alpha(i)-a_iold)*kernel(x(i,:)(:)',x(j,:)(:)')...
-				-y(j)*(alpha(j)-a_jold)*kernel(x(j,:)(:)',x(j,:)(:)');
+				-y(i)*(alpha(i)-a_iold)*kernel(x(i,:),x(i,:))...
+				-y(j)*(alpha(j)-a_jold)*kernel(x(i,:),x(j,:));
 
-			b=(b1+b2)/2;
+			b2=b-E(j)...
+				-y(i)*(alpha(i)-a_iold)*kernel(x(i,:),x(j,:))...
+				-y(j)*(alpha(j)-a_jold)*kernel(x(j,:),x(j,:));
+			
+			if (0<alpha(i) && alpha(i)<C)
+				b=b1;
+			elseif (0<alpha(j) && alpha(j)<C)
+				b=b2;
+			else 
+				b=(b1+b2)/2;
+			end
 	
 			num_changed_alphas=num_changed_alphas+1;
 			

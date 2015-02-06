@@ -1,8 +1,6 @@
-function similarity=polynomialKernel(x1,x2,constant,degree)
-  
-   x1=x1(:);
-   x2=x2(:);
+function similarity=polynomialKernel(xi,l,const,degree)
 	
-	similarity=(x1'*x2+constant)^degree;
+	xi=xi(:);
 
+	similarity=(l*xi+const).^degree;
 	
