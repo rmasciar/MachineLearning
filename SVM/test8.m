@@ -9,11 +9,13 @@ load('ex6data2.mat');
 % Kernel test
 
 sigma=0.1;
-[linearKernel polynomialKernel gaussianKernel]=defineKernels(0, 1, sigma);
+[linearKernel polynomialKernel gaussianKernel]=defineKernels(1, 10, sigma);
 
 % train SVM
 	
 C=1;
-model=trainSVM(y,X,C,gaussianKernel);
+model=trainSVM(y,X,C,polynomialKernel);
 pred=SVMpredict(X,model);
-mean(pred=~y)
+
+y(y==0)=-1;
+mean(pred==y)
