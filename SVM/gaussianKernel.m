@@ -1,8 +1,6 @@
-function similarity=gaussianKernel(x1,x2,sigma)
-  
-  x1=x1(:);
-  x2=x2(:);
-  
-  similarity=exp(-trace((x1-x2)'*(x1-x2))/(2*(sigma^2)));
-
+function similarity=gaussianKernel(xi,l,sigma)
 	
+	[m n]=size(l);
+
+	delta=ones(m,1)*xi-l;
+	similarity=exp(-(1/(2*sigma^2)).*diag(delta*delta'));

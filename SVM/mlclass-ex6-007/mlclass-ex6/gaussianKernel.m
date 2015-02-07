@@ -16,7 +16,7 @@ sim = 0;
 %
 %
 
-sim=exp(-trace((x1-x2)'*(x1-x2))/(2*(sigma^2)));
+sim=exp(-((x1-x2)'*(x1-x2))/(2*(sigma^2)));
 
 
 
