@@ -1,0 +1,4 @@
+
+function centroids=initializeCentroids(x,K)
+	[m n]=size(x);
+	centroids=randperm(m)(1:K);
