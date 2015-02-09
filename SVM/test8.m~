@@ -3,19 +3,32 @@
 clear;close all;clc;
 
 % load data
-fprintf('Load and visualize data ...\n');
+fprintf('Load data ...\n');
 load('ex6data2.mat');
+pause
 
-% Kernel test
-
+% Kernel definition
+fprintf('Kernel definition ...\n');
 sigma=0.1;
-[linearKernel polynomialKernel gaussianKernel]=defineKernels(1, 3, sigma);
+kernel=@(xi,l)gaussianKernel(xi,l,sigma)
+pause
 
 % train SVM
-	
 C=1;
-model=trainSVM(y,X,C,polynomialKernel);
-pred=SVMpredict(X,model);
+fprintf('Training SVM ...\n');
+tic()
+model=trainSVM(y,X,C,kernel);
+toc()
+pause
 
+% predict y
+fprintf('Predicting training set\n');
+tic()
+pred=SVMpredict(X,model);
+toc()
+pause
+
+% performance on training set
+fprintf('SVM performance set\n');
 y(y==0)=-1;
 mean(pred==y)

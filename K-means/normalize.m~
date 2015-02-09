@@ -1,0 +1,12 @@
+function [x_n mu sd]=normalize(x)
+
+	[m n]=size(x);
+	
+	mu=ones(m,1)*mean(x,1);
+
+	sd=std(x,[],1);
+	sd(sd==0)=1;
+	sd=ones(m,1)*sd;
+	
+	x_n=(x-mu)./(sd);
+	
