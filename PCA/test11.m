@@ -10,7 +10,7 @@ Xorig=X;
 [X mu sd]=normalize(X);
 
 % covariance/correlation matrix
-r=(1/m)*X'*X;
+r=(1/(m-1))*X'*X;
 
 % singular value decomposition
 [u s v]=svd(r);

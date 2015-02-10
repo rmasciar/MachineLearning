@@ -6,7 +6,7 @@ function [ured z xapprox]=pca(x,threshold=0.99)
 [xn mu sd]=normalize(x);
 
 % covariance/correlation matrix
-r=(1/m)*xn'*xn;
+r=(1/(m-1))*xn'*xn;
 
 % singular value decomposition
 [u s v]=svd(r);
