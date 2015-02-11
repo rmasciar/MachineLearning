@@ -21,7 +21,7 @@ sigma2 = zeros(n, 1);
 %               should contain variance of the i-th feature.
 %
 mu=mean(X,1)(:);
-sigma2=(std(X,[],1).^2)(:);
+sigma2=(1/(m))*diag((X-ones(m,1)*mu')'*(X-ones(m,1)*mu'));
 
 
 % =============================================================
