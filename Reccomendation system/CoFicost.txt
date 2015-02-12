@@ -1,0 +1,11 @@
+function [J Theta_grad X_grad]=CoFiCost(Y,X,R,Theta,lambda,nmovies,nuser,n)
+	
+	if ~(~exist('nmovies','var')||isempty(nmovies)||~exist('nuser','var')||isempty(nuser)||~exist('n','var')||isempty(n))
+		X=reshape(X,nmovies,n);
+		Y=reshape(Y,nmovies,nuser);
+		Theta=reshape(Theta,nuser,n);
+	end
+	
+	J=0.5*trace(((X*Theta'-Y).*R)*((X*Theta'-Y).*R)')+0.5*lambda*(X.^2+Theta.^2);
+	Theta_grad=((X*Theta'-Y).*R)'+lambda*Theta;
+	X_grad=((X*Theta'-Y).*R)*Theta+lambda*X;
