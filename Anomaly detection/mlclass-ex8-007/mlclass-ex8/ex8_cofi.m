@@ -192,14 +192,14 @@ Theta = randn(num_users, num_features);
 initial_parameters = [X(:); Theta(:)];
 
 % Set options for fmincg
-options = optimset('GradObj', 'on', 'MaxIter', 100);
+options = optimset('GradObj', 'on', 'MaxIter', 400);
 
 % Set Regularization
 lambda = 10;
-theta = fmincg (@(t)(cofiCostFunc(t, Y, R, num_users, num_movies, ...
+[theta val]= fmincg (@(t)(cofiCostFunc(t, Ynorm, R, num_users, num_movies, ...
                                 num_features, lambda)), ...
                 initial_parameters, options);
-
+val
 % Unfold the returned theta back into U and W
 X = reshape(theta(1:num_movies*num_features), num_movies, num_features);
 Theta = reshape(theta(num_movies*num_features+1:end), ...

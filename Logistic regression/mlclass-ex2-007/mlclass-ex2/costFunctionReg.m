@@ -18,7 +18,7 @@ grad = zeros(size(theta));
 %               derivatives of the cost w.r.t. each parameter in theta
 
 
-h=sigmoid(-X*theta);
+h=sigmoid(X*theta);
 
 LAMBDA=lambda.*eye(n+1);
 LAMBDA(1,1)=0;

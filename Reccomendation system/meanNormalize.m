@@ -6,5 +6,5 @@ function [yn mu]=meanNormalize(y,r)
 	mu=mean(y.*r,2);
 	mu=mu.*fac;
 
-	yn=y-mu*ones(1,u);
+	yn=(y-mu*ones(1,u)).*r;
 	
