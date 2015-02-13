@@ -1,6 +1,10 @@
-function [yn mu]=meanNormalize(y)
+function [yn mu]=meanNormalize(y,r)
 	
 	[m u]=size(y);
-	mu=mean(y,2);
+
+	fac=u./sum(r,2);
+	mu=mean(y.*r,2);
+	mu=mu.*fac;
+
 	yn=y-mu*ones(1,u);
 	
