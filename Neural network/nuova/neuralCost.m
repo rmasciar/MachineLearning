@@ -24,7 +24,7 @@ function [J,dJ]=neuralCost(y_vec,X,theta,network,lambda)
 		for l=(L-1):-1:2
 
 			a_curr=getA(a,network,l);
-			theta__curr=neuralGetMatrix(theta,network,l);
+			theta_curr=neuralGetMatrix(theta,network,l);
 
 			delta_l=(theta_curr')*delta_L.*a_curr.*(1-a_curr);
 		
@@ -42,29 +42,34 @@ function [J,dJ]=neuralCost(y_vec,X,theta,network,lambda)
 	end
 	
 	J=0;
-	for k=1:K
-		J=J-(1/m)*(y_vec(:,k)'*log(h(:,k))+((1-y_vec(:,k))')*log(1-h(:,k)));
-	end
+%for k=1:K
+%	J=J-(1/m)*(y_vec(:,k)'*log(h(:,k))+((1-y_vec(:,k))')*log(1-h(:,k)));
+%end
+
+	J=-(1/m)*(trace(y_vec'*log(h))+trace((1-y_vec)'*log(1-h)));
 	
-	dJ=DELTA;
+%dJ=DELTA;
 
 	if lambda~=0
 	
 		for l=1:(L-1)
 			% regualarization on cost
-			LAMBDAJ=eye(network(l+1));
+		%LAMBDAJ=eye(network(l+1));
 			theta0=neuralGetMatrix(theta,network,l);
-			J=J+(lambda/(2*m)).*trace((theta0'*LAMBDAJ*theta0)(2:end,2:end));
+		%J=J+(lambda/(2*m)).*trace((theta0'*LAMBDAJ*theta0)(2:end,2:end));
+			J=J+sum((lambda/(2*m)).*(theta0(:,2:end).^2)(:));
 	
 			% regualarization on gradient
 			DELTAl=neuralGetMatrix(DELTA,network,l);
-			LAMBDAdJ=ones(size(DELTAl));
-			LAMBDAdJ(:,1)=zeros(size(LAMBDAdJ,1),1);
+		%LAMBDAdJ=ones(size(DELTAl));
+		%LAMBDAdJ(:,1)=zeros(size(LAMBDAdJ,1),1);
 	
-			DELTAl=DELTAl+(lambda/m).*LAMBDAdJ.*theta0;
+		%DELTAl=DELTAl+(lambda/m).*LAMBDAdJ.*theta0;
+			DELTAl=DELTAl+(lambda/m).*[zeros(size(theta0,1),1),theta0(:,2:end)];
 			DELTA=updateDELTA(DELTA,network,l,DELTAl);		
 		end
-		dJ=DELTA;
 
 	end
+
+	dJ=DELTA;
 
